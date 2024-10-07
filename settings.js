@@ -15,3 +15,18 @@ backgroundImageInput.addEventListener('change', (event) => {
   }
   reader.readAsDataURL(file);
 });
+// Изменение фона страницы
+function changeBackground(image) {
+    document.body.style.backgroundImage = `url(${image})`;
+
+    // Сохраняем фон для всех страниц через LocalStorage
+    localStorage.setItem('background', image);
+}
+
+// При загрузке страницы проверяем сохранённый фон
+window.onload = function() {
+    const savedBackground = localStorage.getItem('background');
+    if (savedBackground) {
+        document.body.style.backgroundImage = `url(${savedBackground})`;
+    }
+}
