@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Management - Kozenko Technology</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Remote Management</h1>
+        <form id="remote-form">
+            <div>
+                <label for="ip-address">IP Address:</label>
+                <input type="text" id="ip-address" name="ip" required pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">
+            </div>
+            <div>
+                <label for="port">Port:</label>
+                <input type="number" id="port" name="port" required min="1" max="65535">
+            </div>
+            <div>
+                <label for="command">Command:</label>
+                <input type="text" id="command" name="command" required>
+            </div>
+            <button type="submit">Send Command</button>
+        </form>
+        <div id="response"></div>
+    </div>
+    <script>
+        const form = document.getElementById('remote-form');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const ip = document.getElementById('ip-address').value;
+            const port = document.getElementById('port').value;
+            const command = document.getElementById('command').value;
+
+            // Здесь должна быть проверка авторизации
+
+            // Отправка запроса на сервер (замените URL на ваш)
+            fetch('/api/remote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ip, port, command })
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseDiv.textContent = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseDiv.textContent = 'Error sending command';
+            });
+        });
+    </script>
+</body>
+</html>
